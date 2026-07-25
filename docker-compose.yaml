@@ -8,24 +8,27 @@ services:
       - "5060:5060/udp"
       - "5060:5060/tcp"
       - "5038:5038/tcp"
+      - "1883:1883/tcp"
       - "10000-10100:10000-10100/udp"
     volumes:
       - ./config:/etc/asterisk
+      - ./scripts/:/etc/asterisk/scripts
     healthcheck:
       test: ["CMD", "asterisk", "-rx", "core show version"]
       interval: 30s
       timeout: 10s
       retries: 3
     command: /usr/sbin/asterisk -f
-    network_mode: host
+#    network_mode: host
 
-  sipcord-bridge:
-    build: sipcord-bridge
-    image: sipcord-bridge:latest
-    container_name: sipcord-bridge
-    restart: unless-stopped
-    network_mode: host
-    env_file:
-      - sipcord-env
-    volumes:
-      - ./sipcord-dialplan.toml:/app/dialplan.toml:ro
+
+#  sipcord-bridge:
+#   build: sipcord-bridge
+#   image: sipcord-bridge:latest
+#   container_name: sipcord-bridge
+#   restart: unless-stopped
+#   network_mode: host
+#   env_file:
+#     - sipcord-env
+#   volumes:
+#     - ./sipcord-dialplan.toml:/app/dialplan.toml:ro
