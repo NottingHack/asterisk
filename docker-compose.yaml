@@ -8,7 +8,7 @@ services:
       - "5060:5060/udp"
       - "5060:5060/tcp"
       - "5038:5038/tcp"
-      - "1883:1883/tcp"
+      - "1883:1883/tcp" #MQTT inbound & outbound
       - "10000-10100:10000-10100/udp"
     volumes:
       - ./config:/etc/asterisk
@@ -19,7 +19,7 @@ services:
       timeout: 10s
       retries: 3
     command: /usr/sbin/asterisk -f
-#    network_mode: host
+    network_mode: host
 
 
 #  sipcord-bridge:
