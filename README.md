@@ -2,7 +2,6 @@
 
 Nottinghack's Asterisk PBX server docker file.
 
-
 ## Running On a Local Machine
 
 ### Sipcord-bridge
@@ -10,7 +9,9 @@ Nottinghack's Asterisk PBX server docker file.
 This is for integrating between Asterisk and Discord.
 You can comment it out in the docker-compose file using the `#` comment character if it fails to docker-compose.
 
-### `docker.errors.InvalidArgument: "host" network_mode is incompatible with port_bindings`
+### Network Mode
+
+`docker.errors.InvalidArgument: "host" network_mode is incompatible with port_bindings`
 
 Comment this out if it shows up and you just want to run this locally.
 It shows up when running the docker-compose in ChromeOS's weird chroot environment.
