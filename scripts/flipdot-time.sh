@@ -1,4 +1,4 @@
 #!/bin/bash
 
 source /asterisk-scripts-venv/bin/activate
-python3 ./flipdot.py
+python3 /etc/asterisk/scripts/flipdot.py
