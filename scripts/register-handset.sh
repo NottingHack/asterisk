@@ -36,11 +36,25 @@ status_code=$(curl -s -H 'Content-Type: application/json' \
 
 echo "Registration status code: ${status_code}" >&2
 
-if [ "$status_code" == "200" ] ; then
+if [ "$status_code" == "204" ] ; then
     echo "STREAM FILE /etc/asterisk/sounds/registration-success \"\" 0" 
 else
     echo "STREAM FILE /etc/asterisk/sounds/registration-failed \"\" 0"
 fi
 
+echo "Rebuilding extensions-hms.conf" >&2
+(
+curl -s -H 'Content-Type: application/json' \
+		-H "Authorization: Bearer $token" \
+		-X GET \
+		"${HMS_ENDPOINT}/api/cc/phones/dialplan" | \
+    jq -r '.[] | "\(.extension) \(.target)"' | \
+    while read extension target ; do
+	echo "exten => ${extension},1,Dial(PJSIP/${target})"
+    done
+) > /etc/asterisk/extensions-hms.conf
+
 read -r agi_reply
-echo "Got: $agi_reply" >&2
+echo "Got to STREAM FILE: $agi_reply" >&2
+
+asterisk -rx "dialplan reload"
