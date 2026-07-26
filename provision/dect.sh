@@ -13,7 +13,7 @@ CONF=
 echo -e "# Panasonic SIP Phone Standard Format File #\r"
 echo -e "# DO NOT CHANGE THIS LINE!\r"
 echo -e "HTTPD_PORTOPEN_AUTO=\"Y\"\r"
-echo -e "CFG_SYSTEM_FILE_PATH=\"http://10.0.0.193/dect.cfg\"\r"
+echo -e "CFG_SYSTEM_FILE_PATH=\"http://10.0.0.4/~asj/dect.cfg\"\r"
 echo -e "SIP_PRXY_ADDR=\"$SIP\"\r"
 echo -e "SIP_RGSTR_ADDR=\"$SIP\"\r"
 ) >> dect.conf
