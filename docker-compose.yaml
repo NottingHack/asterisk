@@ -13,6 +13,8 @@ services:
     volumes:
       - ./config:/etc/asterisk
       - ./scripts/:/etc/asterisk/scripts
+    env_file:
+      - hms-env
     healthcheck:
       test: ["CMD", "asterisk", "-rx", "core show version"]
       interval: 30s
