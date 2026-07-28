@@ -24,6 +24,7 @@ seq 1 255 | while read ps; do
 
     (
 	echo -e "LINE_ENABLE_PS${ps}_1=\"Enabled\"\r"
+	echo -e "PHONE_NUMBER_PS${ps}_1=\"$num\"\r"
 	echo -e "DISPLAY_NAME_PS${ps}_1=\"Asterisk $ps\"\r"
 	echo -e "SIP_URI_PS${ps}_1=\"sip:$num@$SIP\"\r"
 	echo -e "SIP_PASS_PS${ps}_1=\"$pass\"\r"
@@ -35,7 +36,7 @@ seq 1 255 | while read ps; do
 	echo "; DECT $num"
 	echo "[$num]"
 	echo "type=endpoint"
-	echo "context=dect"
+	echo "context=hack"
 	echo "allow=all"
 	echo "aors=$num"
 	echo "[$num](aor-single)"
