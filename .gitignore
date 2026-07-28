@@ -2,4 +2,5 @@ sipcord-env
 hms-env
 config/pjsip-dect.conf
 config/pjsip-vg224.conf
+config/pjsip-hms.conf
 config/extensions-hms.conf
