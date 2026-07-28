@@ -26,7 +26,8 @@ services:
       ofelia.enabled: "true"
       ofelia.job-exec.dect-registration-mode.schedule: "@every 180s"
       ofelia.job-exec.dect-registration-mode.command: "/provision/dect-registration.sh"
-
+      ofelia.job-exec.hms-pjsip.schedule: "@every 60s"
+      ofelia.job-exec.hms-pjsip.command: "/provision/hms-pjsip.sh"
 
   sipcord-bridge:
    build: sipcord-bridge
