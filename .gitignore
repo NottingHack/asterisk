@@ -1,5 +1,10 @@
 sipcord-env
 hms-env
+
+# pjsip-auth contains trunk authentication details
+config/pjsip-auth.conf
+
+# these are automatically generated config files
 config/pjsip-dect.conf
 config/pjsip-vg224.conf
 config/pjsip-hms.conf
