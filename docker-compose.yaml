@@ -5,14 +5,14 @@ services:
     container_name: asterisk
     restart: unless-stopped
     ports:
+      # These generally aren't needed because we're in `host` network_mode, but useful to keep for local dev.
       - "5060:5060/udp"
       - "5060:5060/tcp"
-      - "5038:5038/tcp"
-      - "1883:1883/tcp" #MQTT inbound & outbound
       - "10000-10100:10000-10100/udp"
     volumes:
       - ./config:/etc/asterisk
-      - ./scripts/:/etc/asterisk/scripts
+      - ./scripts:/etc/asterisk/scripts
+      - ./provision:/provision
     env_file:
       - hms-env
     healthcheck:
@@ -22,6 +22,10 @@ services:
       retries: 3
     command: /usr/sbin/asterisk -f
     network_mode: host
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.dect-registration-mode.schedule: "@every 180s"
+      ofelia.job-exec.dect-registration-mode.command: "/provision/dect-registration.sh"
 
 
   sipcord-bridge:
@@ -34,3 +38,12 @@ services:
      - sipcord-env
    volumes:
      - ./sipcord-dialplan.toml:/app/dialplan.toml:ro
+
+  ofelia:
+    image: mcuadros/ofelia:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: daemon --docker
+    depends_on:
+      - asterisk
+     

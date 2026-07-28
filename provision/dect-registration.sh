@@ -8,8 +8,8 @@
 > /tmp/dect-available-ids
 curl -s --digest 'http://admin:adminpass@10.0.0.71/CgiStart.cgi?Page=sys_ps_reg_strt&tab=1' > /tmp/dect-available-id
 
-ids=$(./xq -q 'body option' < /tmp/dect-available-id)
-rand=$(./xq -q 'body input[name=RAND]' -a value < /tmp/dect-available-id)
+ids=$(xq -q 'body option' < /tmp/dect-available-id)
+rand=$(xq -q 'body input[name=RAND]' -a value < /tmp/dect-available-id)
 
 args=$(
     echo -n "RAND=$rand"
