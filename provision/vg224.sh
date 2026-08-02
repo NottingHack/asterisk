@@ -15,22 +15,21 @@ voice-port 2/$i
  station-id number $num
  caller-id enable
 !
-dial-peer voice $num pots
+dial-peer voice 1$num pots
  preference 1
  destination-pattern $num
  port 2/$i
- no register e164
- sip-register
  authentication username $num password $pass
 !
-dial-peer voice 9$num voip
+dial-peer voice 2$num voip
+ voice-class codec 1
  corlist incoming inbound
  corlist outgoing outbound
  huntstop
  preference 1
  destination-pattern $num
  session protocol sipv2
- session target ipv4:10.0.0.19
+ session target sip-server
  dtmf-relay rtp-nte
 !
 EOF
