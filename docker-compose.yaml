@@ -1,4 +1,3 @@
-
 services:
   asterisk:
     build: .
@@ -28,17 +27,25 @@ services:
       ofelia.job-exec.dect-registration-mode.command: "/provision/dect-registration.sh"
       ofelia.job-exec.hms-pjsip.schedule: "@every 60s"
       ofelia.job-exec.hms-pjsip.command: "/provision/hms-pjsip.sh"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
   sipcord-bridge:
-   build: sipcord-bridge
-   image: sipcord-bridge:latest
-   container_name: sipcord-bridge
-   restart: unless-stopped
-   network_mode: host
-   env_file:
-     - sipcord-env
-   volumes:
-     - ./sipcord-dialplan.toml:/app/dialplan.toml:ro
+    build: sipcord-bridge
+    image: sipcord-bridge:latest
+    container_name: sipcord-bridge
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - sipcord-env
+    volumes:
+      - ./sipcord-dialplan.toml:/app/dialplan.toml:ro
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
   ofelia:
     image: mcuadros/ofelia:latest
@@ -47,4 +54,9 @@ services:
     command: daemon --docker
     depends_on:
       - asterisk
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
      
