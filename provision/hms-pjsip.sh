@@ -39,7 +39,9 @@ if [ "$status" == "200" ] ; then
 [$extension]
 type=endpoint
 context=hack
-allow=all
+disallow=all
+allow=ulaw
+allow=alaw
 aors=$extension
 [$extension](aor-single)
 [$extension]

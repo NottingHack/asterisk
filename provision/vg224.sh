@@ -40,7 +40,9 @@ cat >> pjsip-vg224.conf <<EOF
 [$num]
 type=endpoint
 context=hack
-allow=all
+disallow=all
+allow=alaw
+allow=ulaw
 aors=$num
 [$num](aor-single)
 [$num]
