@@ -42,14 +42,21 @@ else
     echo "STREAM FILE /etc/asterisk/sounds/registration-failed \"\" 0"
 fi
 
-echo "Rebuilding extensions-hms.conf" >&2
-(
 curl -s -H 'Content-Type: application/json' \
 		-H "Authorization: Bearer $token" \
 		-X GET \
 		"${HMS_ENDPOINT}/api/cc/phones/dialplan" | \
-    jq -r '.[] | "\(.extension) \(.target)"' | \
-    while read extension target ; do
+    jq -r '.[] | "\(.extension) \(.target)"' > /tmp/dialplan
+
+echo "Rebuilding extensions-hms.conf" >&2
+(
+    echo "exten => _X.,1,NoOp(hack: dialing extension)"
+    cat /tmp/dialplan | while read extension target ; do
+	echo "  same => n,ExecIf(\${CALLERID(num)}==$target?Set(CALLERID(num)=$extension))"
+    done
+    echo "  same => n,Dial(PJSIP/\${EXTEN},30)"
+
+    cat /tmp/dialplan | while read extension target ; do
 	echo "exten => ${extension},1,Dial(PJSIP/${target})"
     done
 ) > /etc/asterisk/extensions-hms.conf
