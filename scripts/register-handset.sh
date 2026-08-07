@@ -52,13 +52,15 @@ echo "Rebuilding extensions-hms.conf" >&2
 (
     echo "exten => _X.,1,NoOp(hack: dialing extension)"
     cat /tmp/dialplan | while read extension target ; do
-	echo "  same => n,ExecIf(\${CALLERID(num)}==$target?Set(CALLERID(num)=$extension))"
+	echo "  same => n,ExecIf(\$[\${CALLERID(num)}=$target]?Set(CALLERID(num)=$extension):NoOp())"
     done
-    echo "  same => n,Dial(PJSIP/\${EXTEN},30)"
+    #echo "  same => n,Dial(PJSIP/\${EXTEN},30)"
 
     cat /tmp/dialplan | while read extension target ; do
-	echo "exten => ${extension},1,Dial(PJSIP/${target})"
+	#echo "exten => ${extension},1,Dial(PJSIP/${target})"
+	echo "  same => n,ExecIf(\$[\${EXTEN}=${extension}]?Dial(PJSIP/${target}):NoOp())"
     done
+    echo "  same => n,Dial(PJSIP/\${EXTEN},30)" 
 ) > /etc/asterisk/extensions-hms.conf
 
 read -r agi_reply
